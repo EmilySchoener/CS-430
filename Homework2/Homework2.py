@@ -23,13 +23,13 @@ data = np.matrix(np.array(data)) #Make data a numpy matrix
 data = np.float64(data) #Change data type
 
 #Test
-#print(data[0])
-#print(data.shape)
+print(data[0])
+print(data.shape)
 
-#Split into training data and varification data
+#Split into training data and verification data
 train = data[:456]
-varify = data[456:]
+verify = data[456:]
 
-#Test to make sure it split correctly
+#Test to make sure it splits correctly
 #print(train[455])
-#print(varify[0])
+#print(verify[0])
