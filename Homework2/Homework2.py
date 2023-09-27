@@ -19,7 +19,6 @@ with open(file) as f:
             temp.append(x)
         data.append(temp)
 
-data = np.matrix(np.array(data)) #Make data a numpy matrix
 data = np.float64(data) #Change data type
 
 #Test
