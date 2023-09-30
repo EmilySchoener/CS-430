@@ -315,3 +315,6 @@ def do_gradient_descent():
 
     print("\tSum of squared errors =", sum((Yhat - normalize(vdata["MEDV"])) ** 2))
     print("\n\n")
+
+if __name__ == "__main__":
+    do_gradient_descent()
