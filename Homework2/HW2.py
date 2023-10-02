@@ -4,6 +4,7 @@
 
 import numpy as np
 import itertools
+import sys
 
 def do_gradient_descent():
 
@@ -124,11 +125,12 @@ def do_gradient_descent():
     alpha = 0.01
     epsilon = 1e-4
     # ____________1____________
-    print("Problem 1.1: Predict NOX from DIS and RAD")
+    print("Problem 1.a: Predict NOX from DIS and RAD")
     # Create matrices to train NOX based on DIS and RAD
     X = np.zeros((456, 2), dtype=float)
     X[:, 0] = tdata["DIS"]
     X[:, 1] = tdata["RAD"]
+
     Y = tdata["NOX"]
 
     # run gradient descent to find the line of best fit
@@ -137,15 +139,22 @@ def do_gradient_descent():
 
     # Calculate the predicted NOX for the verification data
     # and report the sum of the squared errors
-    # TODO: FIX THIS, I AM ALMOST CERTAIN IT IS WRONG
-    Yhat = np.zeros((50,), dtype=float)
+    X = np.zeros((50, 2), dtype=float)
+    X[:, 0] = vdata["DIS"]
+    X[:, 1] = vdata["RAD"]
+    ones = np.ones(len(X))
+    X = np.c_[ones, X]
+    h = np.dot(X, theta.T)
+    result = 0
     for i in range(50):
-        Yhat[i] = theta[0] + (vdata["DIS"][i] * theta[1]) + (vdata["RAD"][i] * theta[2])
-    print("\tSum of squared errors =", sum((Yhat - vdata["NOX"]) ** 2))
+        result += (h[i] - vdata["NOX"][i]) ** 2
+
+    print("\tSum of squared errors =", result)
     print("\n\n")
 
+
     # ____________2____________
-    print("Problem 1.2: Predict NOX From all other variables")
+    print("Problem 1.b: Predict NOX From all other variables")
     # Create matrices to train NOX based on all other variables
     X = np.zeros((456, 13), dtype=float)
     X[:, 0] = tdata["CRIM"]
@@ -191,33 +200,19 @@ def do_gradient_descent():
     for i in range(13):
         X[:, i] = normalize(X[:, i])
 
-    # Calculate the predicted NOX for the verification data
-    # and report the sum of the squared errors
-
-    Yhat = np.zeros((50,), dtype=float)
+    ones = np.ones(len(X))
+    X = np.c_[ones, X]
+    h = np.dot(X, theta.T)
+    result = 0
     for i in range(50):
-        Yhat[i] = (
-            theta[0] * X[i, 0]
-            + theta[1] * X[i, 1]
-            + theta[2] * X[i, 2]
-            + theta[3] * X[i, 3]
-            + theta[4] * X[i, 4]
-            + theta[5] * X[i, 5]
-            + theta[6] * X[i, 6]
-            + theta[7] * X[i, 7]
-            + theta[8] * X[i, 8]
-            + theta[9] * X[i, 9]
-            + theta[10] * X[i, 10]
-            + theta[11] * X[i, 11]
-            + theta[12] * X[i, 12]
-            + theta[13]
-        )
+        result += (h[i] - normalize(vdata["NOX"])[i]) ** 2
 
-    print("\tSum of squared errors =", sum((Yhat - normalize(vdata["NOX"])) ** 2))
+    print("\tSum of squared errors =", result)
     print("\n\n")
 
+
     # ____________3____________
-    print("Problem 1.3: Predict MEDV from AGE and TAX")
+    print("Problem 1.c: Predict MEDV from AGE and TAX")
     # Create matrices to train MEDV based on AGE and TAX
     X = np.zeros((456, 2), dtype=float)
     X[:, 0] = normalize(tdata["AGE"])
@@ -233,18 +228,20 @@ def do_gradient_descent():
     X = np.zeros((50, 2), dtype=float)
     X[:, 0] = normalize(vdata["AGE"])
     X[:, 1] = normalize(vdata["TAX"])
-
-    # Calculate the predicted MEDV for the verification data
-    # and report the sum of the squared errors
-    Yhat = np.zeros((50,), dtype=float)
+    ones = np.ones(len(X))
+    X = np.c_[ones, X]
+    h = np.dot(X, theta.T)
+    result = 0
     for i in range(50):
-        Yhat[i] = theta[0] + (X[i, 0] * theta[1]) + (X[i, 1] * theta[2])
+        result += (h[i] - normalize(vdata["MEDV"])[i]) ** 2
 
-    print("\tSum of squared errors =", sum((Yhat - normalize(vdata["MEDV"])) ** 2))
+    print("\tSum of squared errors =", result)
     print("\n\n")
+    
+    
 
     # ____________4____________
-    print("Problem 1.4: Predict MEDV from all other variables")
+    print("Problem 1.d: Predict MEDV from all other variables")
     # Create matrices to train MEDV based on all other variables
 
     X = np.zeros((456, 13), dtype=float)
@@ -291,30 +288,18 @@ def do_gradient_descent():
     for i in range(13):
         X[:, i] = normalize(X[:, i])
 
-    # Calculate the predicted MEDV for the verification data
-    # and report the sum of the squared errors
-    Yhat = np.zeros((50,), dtype=float)
+    ones = np.ones(len(X))
+    X = np.c_[ones, X]
+    h = np.dot(X, theta.T)
+    result = 0
     for i in range(50):
-        Yhat[i] = (
-            theta[0] * X[i, 0]
-            + theta[1] * X[i, 1]
-            + theta[2] * X[i, 2]
-            + theta[3] * X[i, 3]
-            + theta[4] * X[i, 4]
-            + theta[5] * X[i, 5]
-            + theta[6] * X[i, 6]
-            + theta[7] * X[i, 7]
-            + theta[8] * X[i, 8]
-            + theta[9] * X[i, 9]
-            + theta[10] * X[i, 10]
-            + theta[11] * X[i, 11]
-            + theta[12] * X[i, 12]
-            + theta[13]
-        )
+        result += (h[i] - normalize(vdata["MEDV"])[i]) ** 2
 
-    print("\tSum of squared errors =", sum((Yhat - normalize(vdata["MEDV"])) ** 2))
+    print("\tSum of squared errors =", result)
     print("\n\n")
 
+
+    # ----------------- Problem 2 -----------------
     print("Problem 2: Use Normal Equations for 2a and 2c:")
     X = np.zeros((456, 2), dtype=float)
     X[:, 0] = tdata["DIS"]
@@ -353,3 +338,6 @@ def do_gradient_descent():
 
 if __name__ == "__main__":
     do_gradient_descent()
+    sys.stdout = open("output.txt", "w")
+    do_gradient_descent()
+    sys.stdout.close()
