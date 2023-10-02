@@ -1,6 +1,7 @@
 # Implement multivariate linear regression using gradient descent
-# The data will be in numpy matrix format, so we will use
-# numpy matrix operations to implement the functions.
+# also implement the normal equation method
+
+# Written by: Emily Schoener, Josh Velazquez, and John Ingram
 
 import numpy as np
 import itertools
