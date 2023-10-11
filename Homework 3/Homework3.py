@@ -1,5 +1,6 @@
 #---Homework 3---
 import numpy as np
+import sigmoid as sigmoid
 
 file = "iris.data"
 
