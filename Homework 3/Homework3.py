@@ -20,13 +20,13 @@ with open(file) as f:
         line = line.strip()
         l = line.split(',')
         if l[4] == "Iris-setosa":
-            #l[4] = 1
+            l[4] = 1
             setosa.append(l)
         elif l[4] == "Iris-versicolor":
-            #l[4] = 2
+            l[4] = 2
             versicolor.append(l)
         elif l[4] == "Iris-virginica":
-            #l[4] = 3
+            l[4] = 3
             virginica.append(l)
 #data shuffled to separate into train/verify
 np.random.shuffle(setosa)
