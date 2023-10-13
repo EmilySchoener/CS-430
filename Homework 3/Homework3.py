@@ -44,27 +44,7 @@ verify.extend(setosa[-10:])
 verify.extend(versicolor[-10:])
 verify.extend(virginica[-10:])
 
-# Prepare the training and verification data
-X_train = np.array([row[:4] for row in train], dtype=float)
-y_train = np.array([row[4] for row in train], dtype=int)
 
-X_verify = np.array([row[:4] for row in verify], dtype=float)
-y_verify = np.array([row[4] for row in verify], dtype=int)
-
-initial_theta = np.zeros(X_train.shape[1])
-result = minimize(lrc.logistic_regression_cost, initial_theta, args=(X_train, y_train), method='BFGS')
-
-# The optimized parameters
-optimized_theta = result.x
-
-# Classification on the verification dataset
-z = X_verify.dot(optimized_theta)
-predictions = sigmoid.sigmoid(z)
-predicted_classes = (predictions >= 0.5).astype(int)
-
-# Evaluate the model's performance on the verification dataset
-accuracy = np.mean(predicted_classes == y_verify)
-print(f"Accuracy on verification dataset: {accuracy * 100}%")
 
 #print(train[0])
 #print(verify[0])
