@@ -2,6 +2,7 @@
 import numpy as np
 import sigmoid as sigmoid
 from logistricRegression import logisticRegression
+from sklearn.metrics import confusion_matrix
 
 
 file = "iris.txt"
@@ -42,6 +43,8 @@ for i in range(len(versicolor)):
 
 for i in range(len(virginica)):
     virginica[i] = [float(x) for x in virginica[i]]
+
+
 #data shuffled to separate into train/verify
 np.random.shuffle(setosa)
 np.random.shuffle(versicolor)
@@ -56,55 +59,66 @@ verify.extend(setosa[-10:])
 verify.extend(versicolor[-10:])
 verify.extend(virginica[-10:])
 
-#Train to verify Iris-setosa based on Iris-versicolor and Iris-virginica
-clss = 1
-ATheta = logisticRegression(np.array(train)[:,:4], np.array(train)[:,4])
+# Create a list of classes
+classes = [1, 2, 3]
 
-print("Class 1 vs 2 and 3, Theta: ", ATheta)
+for clss in classes:
+    # Train to verify clss vs 2 other classes
+    other_classes = [c for c in classes if c != clss]
+    ATheta = logisticRegression(
+        np.array(train)[:, :4], (np.array(train)[:, 4] == clss).astype(int))
 
-y = np.array(verify)[:,4]
-x = np.array(verify)[:,:4]
+    print(f"Class {clss} vs Classes {other_classes}, Thetas: ", ATheta)
 
-#Predict yhat
-yhat = x @ ATheta.T
-p = []
-for h in yhat:
-    p.append(sigmoid.sigmoid(h))
-yPred =[]
-for t in p:
-    if t > 0.5:
-        yPred.append(1)
-    else:
-        yPred.append(0)
-               
-#print(yPred)
-#print(y)
+    y = np.array(verify)[:, 4]
+    x = np.array(verify)[:, :4]
 
-#Validation accuracy for A
-tp = 0
-fp = 0
-tn = 0
-fn = 0
-#Identify if y was correctly predicted
-for i in range(len(y)):
-    if yPred[i] == 1 and y[i] == clss:
-        tp += 1
-    elif yPred[i] == 1 and y[i] != clss:
-        fp += 1
-    elif yPred[i] == 0 and y[i] == clss:
-        fn += 1
-    elif yPred[i] == 0 and y[i] != clss:
-        tn += 1
-#Accuracy
-acc = (tp + tn)/(tp+tn+fp+fn)
-#Precision
-pre = tp / (tp+fp)
-print("Accuracy = " + str(acc) + " and Precision = " + str(pre) +"\n\n")
+    # Predict yhat
+    yhat = x @ ATheta.T
+    p = []
+    for h in yhat:
+        p.append(sigmoid.sigmoid(h))
+    yPred = []
+    for t in p:
+        if t > 0.5:
+            yPred.append(1)
+        else:
+            yPred.append(0)
+
+    # Validation accuracy
+    #tp = true positive, fp = false positive, tn = true negative, fn = false negative
+    tp = 0
+    fp = 0
+    tn = 0
+    fn = 0
+    # Identify if y was correctly predicted
+    for i in range(len(y)):
+        if yPred[i] == 1 and y[i] == clss:
+            tp += 1
+        elif yPred[i] == 1 and y[i] not in [clss]:
+            fp += 1
+        elif yPred[i] == 0 and y[i] == clss:
+            fn += 1
+        elif yPred[i] == 0 and y[i] not in [clss]:
+            tn += 1
+
+    # Calculating accuracy
+    acc = (tp + tn) / (tp + tn + fp + fn)
+    # Calculating Precision
+    pre = tp / (tp + fp)
+
+        # Calculate the confusion matrix
+    cm = confusion_matrix(y, yPred)
+
+    # Print the confusion matrix
+    print(f"Confusion Matrix for class {clss} vs {other_classes}:")
+    print(cm)
+    print(f"Accuracy for class {clss} vs {other_classes} = {acc} and Precision = {pre}\n\n")
 
 
 
-#print(train[0])
-#print(verify[0])
+#print(train)
+#print(verify)
 #print(setosa[0])
 #print(versicolor[0])
 #print(virginica[0])
