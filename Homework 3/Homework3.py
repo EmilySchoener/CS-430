@@ -57,10 +57,50 @@ verify.extend(versicolor[-10:])
 verify.extend(virginica[-10:])
 
 #Train to verify Iris-setosa based on Iris-versicolor and Iris-virginica
+clss = 1
+ATheta = logisticRegression(np.array(train)[:,:4], np.array(train)[:,4])
 
-theta = logisticRegression(np.array(train)[:,:4], np.array(train)[:,4])
+print("Class 1 vs 2 and 3, Theta: ", ATheta)
 
-print("Theta: ", theta)
+y = np.array(verify)[:,4]
+x = np.array(verify)[:,:4]
+
+#Predict yhat
+yhat = x @ ATheta.T
+p = []
+for h in yhat:
+    p.append(sigmoid.sigmoid(h))
+yPred =[]
+for t in p:
+    if t > 0.5:
+        yPred.append(1)
+    else:
+        yPred.append(0)
+               
+#print(yPred)
+#print(y)
+
+#Validation accuracy for A
+tp = 0
+fp = 0
+tn = 0
+fn = 0
+#Identify if y was correctly predicted
+for i in range(len(y)):
+    if yPred[i] == 1 and y[i] == clss:
+        tp += 1
+    elif yPred[i] == 1 and y[i] != clss:
+        fp += 1
+    elif yPred[i] == 0 and y[i] == clss:
+        fn += 1
+    elif yPred[i] == 0 and y[i] != clss:
+        tn += 1
+#Accuracy
+acc = (tp + tn)/(tp+tn+fp+fn)
+#Precision
+pre = tp / (tp+fp)
+print("Accuracy = " + str(acc) + " and Precision = " + str(pre) +"\n\n")
+
 
 
 #print(train[0])
