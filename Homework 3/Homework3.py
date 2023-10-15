@@ -1,10 +1,12 @@
 #---Homework 3---
 import numpy as np
 import sigmoid as sigmoid
-import lrc as lrc
-from scipy.optimize import minimize
+from logistricRegression import logisticRegression
+
 
 file = "iris.txt"
+np.random.seed(20)
+
 
 data = []
 train = []
@@ -30,6 +32,16 @@ with open(file) as f:
         elif l[4] == "Iris-virginica":
             l[4] = 3
             virginica.append(l)
+
+# Turn all the data into floats
+for i in range(len(setosa)):
+    setosa[i] = [float(x) for x in setosa[i]]
+
+for i in range(len(versicolor)):
+    versicolor[i] = [float(x) for x in versicolor[i]]
+
+for i in range(len(virginica)):
+    virginica[i] = [float(x) for x in virginica[i]]
 #data shuffled to separate into train/verify
 np.random.shuffle(setosa)
 np.random.shuffle(versicolor)
@@ -44,6 +56,11 @@ verify.extend(setosa[-10:])
 verify.extend(versicolor[-10:])
 verify.extend(virginica[-10:])
 
+#Train to verify Iris-setosa based on Iris-versicolor and Iris-virginica
+
+theta = logisticRegression(np.array(train)[:,:4], np.array(train)[:,4])
+
+print("Theta: ", theta)
 
 
 #print(train[0])
