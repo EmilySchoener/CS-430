@@ -114,11 +114,3 @@ for clss in classes:
     print(f"Confusion Matrix for class {clss} vs {other_classes}:")
     print(cm)
     print(f"Accuracy for class {clss} vs {other_classes} = {acc} and Precision = {pre}\n\n")
-
-
-
-#print(train)
-#print(verify)
-#print(setosa[0])
-#print(versicolor[0])
-#print(virginica[0])
