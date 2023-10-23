@@ -86,7 +86,7 @@ print("\n\n")
 
 # Creating a neural net with 12 input nodes : 'X', 'Y', 'month', 'day', 'FFMC', 'DMC', 'DC', 'ISI', 'temp', 'RH', 'wind', and 'rain'.
 # The output is a singular node : 'area'
-# There are two hidden layers - one with 64 nodes and the other with 32 nodes
+# There are two hidden layers - one with 128 nodes and the other with 64 nodes
 # Create a neural network
 model = keras.Sequential([
     keras.layers.Input(shape=(12,)),  # Input shape: 12 features
