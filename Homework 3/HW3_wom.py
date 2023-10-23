@@ -110,7 +110,7 @@ for clss in classes:
 
         pre = tp / (tp + fp)
 
-        # Print the confusion matrix
+    # Print the confusion matrix
     print(f"Confusion Matrix for class {clss} vs {other_classes}:")
     print(f"True Positives: {tp}, False Positives: {fp}")
     print(f"False Negatives: {fn}, True Negatives: {tn}")
