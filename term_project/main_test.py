@@ -77,21 +77,22 @@ r2_svr = r2_score(y_test, y_pred_svr)
 print("Linear Regression Results:")
 print(f"Mean Squared Error: {mse_linear}")
 print(f"R-squared Score: {r2_linear}")
-print("\n\n")
+print("\n")
 
 # Get the coefficients (parameters)
-"""
+
 coefficients = linear_model.coef_
+bias = linear_model.intercept_  # Access the intercept (bias) term
 
 print("Linear Regression Coefficients:")
 for feature, coef in zip(features, coefficients):
     print(f"{feature}: {coef}")
-"""
+print(f"Bias (Intercept): {bias}")
 
 print("\nSupport Vector Regression (SVR) Results:")
 print(f"Mean Squared Error: {mse_svr}")
 print(f"R-squared Score: {r2_svr}")
-print("\n\n")
+print("\n")
 
 
 
