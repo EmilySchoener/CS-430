@@ -60,7 +60,7 @@ linear_model.fit(X_train, y_train)
 y_pred_linear = linear_model.predict(X_test)
 
 # Create and train the SVR model
-svr_model = SVR(kernel='rbf')  # The 'rbf' kernal was chosen since there is no prior knowledge on how the data's underlying distribution
+svr_model = SVR(kernel='rbf')  # The 'rbf' kernal was chosen since there is no prior knowledge on the data's underlying distribution
 svr_model.fit(X_train, y_train)
 
 # Predicts using SVR
@@ -77,11 +77,22 @@ r2_svr = r2_score(y_test, y_pred_svr)
 print("Linear Regression Results:")
 print(f"Mean Squared Error: {mse_linear}")
 print(f"R-squared Score: {r2_linear}")
+print("\n\n")
+
+# Get the coefficients (parameters)
+"""
+coefficients = linear_model.coef_
+
+print("Linear Regression Coefficients:")
+for feature, coef in zip(features, coefficients):
+    print(f"{feature}: {coef}")
+"""
 
 print("\nSupport Vector Regression (SVR) Results:")
 print(f"Mean Squared Error: {mse_svr}")
 print(f"R-squared Score: {r2_svr}")
 print("\n\n")
+
 
 
 # Creating a neural net with 12 input nodes : 'X', 'Y', 'month', 'day', 'FFMC', 'DMC', 'DC', 'ISI', 'temp', 'RH', 'wind', and 'rain'.
