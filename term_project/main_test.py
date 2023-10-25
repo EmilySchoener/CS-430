@@ -6,6 +6,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.svm import SVR
 import tensorflow as tf
 from tensorflow import keras
+from keras import regularizers
 
 # Converts the months and days into ints to use for the training models
 month_mapping = {
@@ -102,8 +103,8 @@ print("\n")
 # Create a neural network
 model = keras.Sequential([
     keras.layers.Input(shape=(12,)),  # Input shape: 12 features
-    keras.layers.Dense(128, activation='relu'), #Rectified Linear Unit for hidden layer activiaiton
-    keras.layers.Dense(64, activation='relu'),
+    keras.layers.Dense(128, activation='relu', kernel_regularizer=regularizers.l2(.01)), #Rectified Linear Unit for hidden layer activiaiton
+    keras.layers.Dense(64, activation='relu', kernel_regularizer=regularizers.l2(.01)), #Regularized as well to mitigate overfitting
     keras.layers.Dense(1)  # Output layer for regression
 ])
 
@@ -122,6 +123,14 @@ print("Neural Network Results:")
 print(f"Mean Squared Error: {mse_nn}")
 print(f"R-squared Score: {r2_nn}")
 
+# Get the weights of the neural network
+weights = model.get_weights()
+
+# Print the weights
+print("Neural Network Weights:")
+for i, layer_weights in enumerate(weights):
+    print(f"Layer {i + 1}:")
+    print(layer_weights)
 
 """
 #using cross-validatrion to see results
