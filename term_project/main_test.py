@@ -7,6 +7,7 @@ from sklearn.svm import SVR
 import tensorflow as tf
 from tensorflow import keras
 from keras import regularizers
+import matplotlib.pyplot as plt
 
 # Converts the months and days into ints to use for the training models
 month_mapping = {
@@ -131,6 +132,42 @@ print("Neural Network Weights:")
 for i, layer_weights in enumerate(weights):
     print(f"Layer {i + 1}:")
     print(layer_weights)
+
+
+# Inverse the log transformation for predicted values
+y_pred_linear_original = np.exp(y_pred_linear) - 1
+y_pred_svr_original = np.exp(y_pred_svr) - 1
+y_pred_nn_original = np.exp(y_pred_nn) - 1
+
+# Plot the predicted vs. actual values for the linear regression model
+plt.figure(figsize=(10, 6))
+plt.scatter(y_test, y_pred_linear, color='blue', label='Linear Regression')
+plt.xlabel('Actual Log(Area)')
+plt.ylabel('Predicted Log(Area)')
+plt.title('Linear Regression: Actual vs. Predicted')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Plot the predicted vs. actual values for the SVR model
+plt.figure(figsize=(10, 6))
+plt.scatter(y_test, y_pred_svr, color='red', label='SVR')
+plt.xlabel('Actual Log(Area)')
+plt.ylabel('Predicted Log(Area)')
+plt.title('SVR: Actual vs. Predicted')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Plot the predicted vs. actual values for the neural network
+plt.figure(figsize=(10, 6))
+plt.scatter(y_test, y_pred_nn, color='green', label='Neural Network')
+plt.xlabel('Actual Log(Area)')
+plt.ylabel('Predicted Log(Area)')
+plt.title('Neural Network: Actual vs. Predicted')
+plt.legend()
+plt.grid(True)
+plt.show()
 
 """
 #using cross-validatrion to see results
