@@ -123,3 +123,6 @@ np.savetxt(verify_file, verify_data, delimiter=',', fmt='%f')
 print("Final Centroids:")
 for i, centroid in enumerate(kmeans.cluster_centers_):
     print(f"Cluster {i + 1} - x = {centroid[0]}, y = {centroid[1]}")
+
+#After running easy.py it outputs "Best c=0.03125, g=0.0078125 CV rate=6.66667" for training data
+print("SVM: Best c=0.03125, g=0.0078125 CV rate=6.66667")
