@@ -1,6 +1,5 @@
 #---Homework 4---
 import numpy as np
-import sigmoid as sigmoid
 from sklearn.cluster import KMeans
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
