@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import os, sys, math, random
 from collections import defaultdict
 

@@ -124,5 +124,18 @@ print("Final Centroids:")
 for i, centroid in enumerate(kmeans.cluster_centers_):
     print(f"Cluster {i + 1} - x = {centroid[0]}, y = {centroid[1]}")
 
-#After running easy.py it outputs "Best c=0.03125, g=0.0078125 CV rate=6.66667" for training data
-print("SVM: Best c=0.03125, g=0.0078125 CV rate=6.66667")
+#After running easy.py it outputs "Best c=2048.0, g=0.00048828125 CV rate=98.3333" for training data
+print("SVM: Best c=2048.0, g=0.00048828125 CV rate=98.3333")
+
+
+with open("iris.txt", "r") as input_file, open("test.txt", "w") as output_file:
+    lines = input_file.readlines()
+
+    for i, line in enumerate(lines[:150]):
+        values = line.strip().split(',')[:4]
+        class_label = str((i // 50) + 1)  # Calculate the class label (1, 2, 3)
+
+        output_line = f"{class_label} "
+        output_line += " ".join([f"{j + 1}:{value}" for j, value in enumerate(values)])
+
+        output_file.write(output_line + "\n")
