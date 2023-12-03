@@ -169,6 +169,76 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
+# Plot the estimated area for each feature based on the linear model
+plt.figure(figsize=(15, 10))
+
+for i, feature in enumerate(features):
+    # Create a subplot for each feature
+    plt.subplot(4, 3, i+1)
+    
+    # Extract the current feature for plotting
+    feature_values = [row[features.index(feature)] for row in X_test]
+    
+    # Plot the actual values against the predicted values
+    plt.scatter(feature_values, y_test, color='blue', label='Actual')
+    plt.scatter(feature_values, y_pred_linear, color='red', label='Predicted')
+    
+    plt.xlabel(feature)
+    plt.ylabel('Log(Area)')
+    plt.title(f'Linear Regression: Actual vs. Predicted for {feature}')
+    plt.legend()
+    plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+# Plot the estimated area for each feature based on the linear model
+plt.figure(figsize=(15, 10))
+
+for i, feature in enumerate(features):
+    # Create a subplot for each feature
+    plt.subplot(4, 3, i+1)
+    
+    # Extract the current feature for plotting
+    feature_values = [row[features.index(feature)] for row in X_test]
+    
+    # Plot the actual values against the predicted values
+    plt.scatter(feature_values, y_test, color='blue', label='Actual')
+    plt.scatter(feature_values, y_pred_svr, color='red', label='Predicted')
+    
+    plt.xlabel(feature)
+    plt.ylabel('Log(Area)')
+    plt.title(f'SVR: Actual vs. Predicted for {feature}')
+    plt.legend()
+    plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+# Plot the estimated area for each feature based on the linear model
+plt.figure(figsize=(15, 10))
+
+for i, feature in enumerate(features):
+    # Create a subplot for each feature
+    plt.subplot(4, 3, i+1)
+    
+    # Extract the current feature for plotting
+    feature_values = [row[features.index(feature)] for row in X_test]
+    
+    # Plot the actual values against the predicted values
+    plt.scatter(feature_values, y_test, color='blue', label='Actual')
+    plt.scatter(feature_values, y_pred_nn, color='red', label='Predicted')
+    
+    plt.xlabel(feature)
+    plt.ylabel('Log(Area)')
+    plt.title(f'Neural Net: Actual vs. Predicted for {feature}')
+    plt.legend()
+    plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+
 """
 #using cross-validatrion to see results
 # Number of folds for cross-validation
