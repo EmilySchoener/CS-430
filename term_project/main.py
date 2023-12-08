@@ -15,8 +15,15 @@ import matplotlib.pyplot as plt
 
 dontGraph = False
 if len(sys.argv) > 1:
-    if sys.argv[1] == "-ng":
-        dontGraph = True
+    for arg in sys.argv:
+        # Don't graph if the user specifies the -ng flag
+        if arg == "-ng":
+            dontGraph = True
+        # Print to a file if the user specifies the -f flag
+        elif arg == "-f":
+            toFile = True
+            sys.stdout = open("output.txt", "w")
+    
 
 # Converts the months and days into ints to use for the training models
 month_mapping = {
@@ -197,6 +204,9 @@ print(f"Linear Regression Bias: {bias_lr}")
 print(f"SVR Bias: {bias_svr}")
 print(f"Random Forest Bias: {bias_rf}")
 print(f"Neural Network Bias: {bias_nn}")
+
+if toFile:
+    sys.stdout.close()
 
 if dontGraph:
     exit()
