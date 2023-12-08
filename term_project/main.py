@@ -1,5 +1,7 @@
 import csv
 import numpy as np
+import math
+import sys
 from sklearn.model_selection import train_test_split, KFold
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
@@ -10,6 +12,11 @@ from tensorflow import keras
 from keras import regularizers
 from keras.callbacks import EarlyStopping
 import matplotlib.pyplot as plt
+
+dontGraph = False
+if len(sys.argv) > 1:
+    if sys.argv[1] == "-ng":
+        dontGraph = True
 
 # Converts the months and days into ints to use for the training models
 month_mapping = {
@@ -86,16 +93,20 @@ print("\n")
 
 # Get the coefficients (parameters)
 coefficients = linear_model.coef_
-bias = linear_model.intercept_  
+bias_lr = linear_model.intercept_  
 
 print("Linear Regression Coefficients:")
 for feature, coef in zip(features, coefficients):
     print(f"{feature}: {coef}")
-print(f"Bias (Intercept): {bias}")
+print(f"Bias (Intercept): {bias_lr}")
+
+# Calculate the SVR bias
+bias_svr = np.mean(y_pred_svr - y_test)
 
 print("\nSupport Vector Regression (SVR) Results:")
 print(f"Mean Squared Error: {mse_svr}")
 print(f"R-squared Score: {r2_svr}")
+print(f"Bias: {bias_svr}")
 print("\n")
 
 
@@ -130,9 +141,14 @@ y_pred_nn = model.predict(np.array(X_test))
 mse_nn = mean_squared_error(y_test, y_pred_nn)
 r2_nn = r2_score(y_test, y_pred_nn)
 
+# Calculate the bias of the neural network
+bias_nn = np.mean(y_pred_nn - y_test)
+
 print("Neural Network Results:")
 print(f"Mean Squared Error: {mse_nn}")
 print(f"R-squared Score: {r2_nn}")
+print(f"Bias: {bias_nn}")
+print("\n")
 
 # Get the weights of the neural network
 weights = model.get_weights()
@@ -153,9 +169,38 @@ y_pred_nn_original = np.exp(y_pred_nn) - 1
 mse_rf = mean_squared_error(y_test, y_pred_rf)
 r2_rf = r2_score(y_test, y_pred_rf)
 
+#Calculate the bias of the random forest model
+bias_rf = np.mean(y_pred_rf - y_test)
+
 print("RF Results:")
 print(f"Mean Squared Error: {mse_rf}")
 print(f"R-squared Score: {r2_rf}")
+print(f"Bias: {bias_rf}")
+
+
+print("Summary of Results:")
+
+# Print all of the r-squared scores for the models
+print(f"Linear Regression R-squared Score: {abs(r2_linear)}")
+print(f"SVR R-squared Score: {abs(r2_svr)}")
+print(f"Random Forest R-squared Score: {abs(r2_rf)}")
+print(f"Neural Network R-squared Score: {abs(r2_nn)}")
+
+# Print all of the mean squared errors for the models
+print(f"Linear Regression Mean Squared Error: {mse_linear}")
+print(f"SVR Mean Squared Error: {mse_svr}")
+print(f"Random Forest Mean Squared Error: {mse_rf}")
+print(f"Neural Network Mean Squared Error: {mse_nn}")
+
+# Print all of the biases for the models
+print(f"Linear Regression Bias: {bias_lr}")
+print(f"SVR Bias: {bias_svr}")
+print(f"Random Forest Bias: {bias_rf}")
+print(f"Neural Network Bias: {bias_nn}")
+
+if dontGraph:
+    exit()
+
 
 # Plot the predicted vs. actual values for the linear regression model
 #plt.figure(figsize=(10, 6))
