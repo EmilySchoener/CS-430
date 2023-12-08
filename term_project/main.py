@@ -333,7 +333,7 @@ plt.tight_layout()
 plt.show()
 
 # Plotting Linear Regression feature coefficients
-plt.bar(features + ['Intercept'], list(coefficients) + [bias])
+plt.bar(features + ['Intercept'], list(coefficients) + [bias_lr])
 plt.title('Linear Regression Coefficients')
 plt.xlabel('Features')
 plt.ylabel('Coefficient Value')
